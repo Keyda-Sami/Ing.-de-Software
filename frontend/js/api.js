@@ -10,7 +10,7 @@
 'use strict';
 
 /** URL base del backend FastAPI */
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'https://subli-tech-backend.onrender.com';
 
 /**
  * Exponer API_BASE globalmente para que otros módulos
