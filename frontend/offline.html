@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sin conexión — Subli-Tech</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#7A00FF" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0D0025, #2D0060);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .icon  { font-size: 4rem; margin-bottom: 20px; }
+    h1     { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    p      { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; max-width: 360px; }
+    .btn   {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #7A00FF, #FF007F);
+      color: #fff;
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .wifi { margin-top: 20px; font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+  </style>
+</head>
+<body>
+  <div class="icon">📡</div>
+  <h1>Sin conexión</h1>
+  <p>
+    Parece que no tienes internet en este momento.<br>
+    Revisa tu conexión y vuelve a intentarlo.
+  </p>
+  <a href="/" class="btn" onclick="location.reload()">🔄 Reintentar</a>
+  <p class="wifi">Subli-Tech Bolivia — Sublimación Premium</p>
+</body>
+</html>

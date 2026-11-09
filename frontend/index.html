@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subli-Tech — Personaliza Tus Artículos Sublimados</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#7A00FF" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Subli-Tech" />
+  <link rel="apple-touch-icon" href="img/logo.png" />
+  <meta name="description" content="Subli-Tech Bolivia: poleras, tazas y gorras personalizadas con sublimación de alta calidad. Diseño único, entrega rápida en Bolivia." />
+  <meta name="keywords" content="sublimación, poleras personalizadas, tazas personalizadas, gorras, bolivia, cochabamba, la paz" />
+  <meta name="author" content="Subli-Tech Bolivia" />
+  <meta property="og:title"       content="Subli-Tech — Tu Diseño, Nuestra Pasión" />
+  <meta property="og:description" content="Artículos sublimados de alta calidad. Personaliza poleras, tazas y gorras con tu diseño." />
+  <meta property="og:type"        content="website" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     HEADER
+     ══════════════════════════════════════════════════ -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+
+      <!-- Logo -->
+      <a href="index.html" class="logo" id="logo-link">
+        <img src="img/logo.png" alt="Subli-Tech" style="height:50px;width:auto;object-fit:contain;" />
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="nav" role="navigation" aria-label="Menú principal">
+        <a href="#catalogo"    class="nav-link" id="nav-catalogo">Catálogo</a>
+        <a href="#como-funciona" class="nav-link" id="nav-proceso">¿Cómo funciona?</a>
+        <a href="#por-que"    class="nav-link" id="nav-porque">¿Por qué nosotros?</a>
+        <a href="login.html"  class="btn btn-sm" id="nav-login" style="background:linear-gradient(135deg,#7A00FF,#FF007F);color:#fff;padding:8px 18px;border-radius:50px;font-weight:700;font-size:0.85rem;letter-spacing:0.02em;">Iniciar Sesión</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <a href="carrito.html" class="cart-btn" id="cart-btn" aria-label="Ver carrito">
+          🛒
+          <span class="cart-badge" id="cart-badge">0</span>
+        </a>
+        <a href="producto.html?id=1" class="btn btn-cta btn-sm" id="header-cta" style="display:none;">
+          Personalizar
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Menú móvil">
+  <a href="#catalogo"     class="nav-link" id="m-nav-catalogo">🛍️ Catálogo</a>
+  <a href="#como-funciona" class="nav-link" id="m-nav-proceso">⚙️ ¿Cómo funciona?</a>
+  <a href="#por-que"      class="nav-link" id="m-nav-porque">⭐ ¿Por qué nosotros?</a>
+  <a href="login.html"    class="nav-link" id="m-nav-login">🔑 Iniciar Sesión</a>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════
+     HERO SECTION
+     ══════════════════════════════════════════════════ -->
+<section class="hero" id="inicio" aria-label="Sección principal">
+  <!-- Mesh gradient overlay (Fase 5) -->
+  <div class="hero-mesh" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- Content -->
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          Sublimación Premium en Bolivia
+        </div>
+
+        <h1 class="hero-title">
+          Tu Diseño,<br>
+          Nuestra <em>Pasión</em>
+        </h1>
+
+        <p class="hero-subtitle">
+          Poleras, tazas y gorras personalizadas con tecnología de sublimación de alta definición.
+          Colores que no se van, calidad que se siente.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#catalogo" class="btn btn-cta btn-pulse" id="hero-btn-catalogo">
+            🎨 Personalizar Ahora
+          </a>
+          <a href="#como-funciona" class="btn btn-hero-secondary" id="hero-btn-proceso">
+            ¿Cómo funciona?
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num">+<span>850</span></div>
+            <div class="stat-label">Pedidos entregados</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num"><span>98</span>%</div>
+            <div class="stat-label">Satisfacción cliente</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num"><span>3</span></div>
+            <div class="stat-label">Días de entrega promedio</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual / Card mockup -->
+      <div class="hero-visual">
+        <div class="hero-card-mockup">
+          <div class="mockup-img-wrap">
+            <img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&h=240&fit=crop&auto=format" alt="Productos sublimados personalizados" style="border-radius:12px;" />
+          </div>
+          <div class="mockup-info">
+            <h4>Polera Personalizada</h4>
+            <p class="mockup-price">Desde Bs. 65</p>
+            <div class="mockup-bar">
+              <div class="mockup-bar-fill" style="width:75%"></div>
+            </div>
+            <p class="mockup-bar-label">75% de pedidos en producción hoy</p>
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="hero-badge-float left" id="badge-entrega">
+          <div class="badge-icon green">✅</div>
+          <div class="badge-text">
+            <h5>Pedido Listo</h5>
+            <p>María F. — hace 2 min</p>
+          </div>
+        </div>
+
+        <div class="hero-badge-float right" id="badge-nuevo">
+          <div class="badge-icon purple">🎨</div>
+          <div class="badge-text">
+            <h5>Nuevo Diseño</h5>
+            <p>10 pedidos hoy</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     CATALOG SECTION
+     ══════════════════════════════════════════════════ -->
+<section class="catalog section-padding section-mesh" id="catalogo" aria-label="Catálogo de productos">
+  <div class="container">
+
+    <div class="section-header">
+      <span class="section-eyebrow">🛍️ Catálogo</span>
+      <h2 class="section-title">Elige tu <span class="text-gradient">Artículo Blanco</span></h2>
+      <p class="section-sub">Selecciona el producto perfecto y personalízalo con tu diseño. ¡Los colores duran para siempre!</p>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="catalog-filters" role="group" aria-label="Filtros de categoría">
+      <button class="filter-btn active" id="filter-todos"   data-filter="todos">Todos</button>
+      <button class="filter-btn"        id="filter-polera"  data-filter="polera">👕 Poleras</button>
+      <button class="filter-btn"        id="filter-taza"    data-filter="taza">☕ Tazas</button>
+      <button class="filter-btn"        id="filter-gorra"   data-filter="gorra">🧢 Gorras</button>
+      <button class="filter-btn"        id="filter-cojin"   data-filter="cojin">🛋️ Cojines</button>
+    </div>
+
+    <!-- Products Grid — se rellena dinámicamente desde FastAPI via js/catalogo.js -->
+    <div class="products-grid" id="products-grid" role="list" aria-live="polite">
+      <div class="catalog-loading" id="catalog-loading" style="grid-column:1/-1;text-align:center;padding:48px 20px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;color:#7A00FF;font-family:'Poppins',sans-serif;font-size:0.95rem;font-weight:600;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7A00FF" stroke-width="2.5" stroke-linecap="round">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83">
+              <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+            </path>
+          </svg>
+          Cargando catálogo desde la API…
+        </div>
+      </div>
+    </div><!-- /products-grid -->
+
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     PROCESS SECTION
+     ══════════════════════════════════════════════════ -->
+<section class="process section-padding" id="como-funciona" aria-label="Cómo funciona">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">⚙️ Proceso</span>
+      <h2 class="section-title">¿Cómo funciona?</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.65);">En solo 4 pasos tienes tu pedido personalizado listo para entrega.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card reveal-scale">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Elige tu Artículo</h4>
+          <p>Explora nuestro catálogo y selecciona el artículo blanco que quieres personalizar: polera, taza, gorra o cojín.</p>
+        </div>
+      </div>
+      <div class="step-card reveal-scale reveal-delay-2">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Sube tu Diseño</h4>
+          <p>Carga tu imagen en alta resolución (JPG, PNG). Nuestro equipo de diseño la revisará y optimizará para la sublimación.</p>
+        </div>
+      </div>
+      <div class="step-card reveal-scale reveal-delay-4">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Confirma y Paga Anticipo</h4>
+          <p>Revisa tu pedido, realiza el pago del 50% de anticipo y nosotros comenzamos la producción de inmediato.</p>
+        </div>
+      </div>
+      <div class="step-card reveal-scale reveal-delay-1">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h4>Seguimiento en Tiempo Real</h4>
+          <p>Rastrea el estado de tu pedido en 6 etapas: desde el diseño hasta la costura y listo para entrega.</p>
+        </div>
+      </div>
+      <div class="step-card reveal-scale reveal-delay-3">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h4>Retiro o Despacho</h4>
+          <p>Retira en nuestro local o te despachamos a domicilio. Plazo promedio de entrega: 3 días hábiles.</p>
+        </div>
+      </div>
+      <div class="step-card reveal-scale reveal-delay-5">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <h4>¡Disfruta tu Pedido!</h4>
+          <p>Colores de alta fidelidad que no decoloran ni con el lavado. Garantía de calidad total en cada artículo.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     WHY US
+     ══════════════════════════════════════════════════ -->
+<section class="why-us section-padding section-mesh" id="por-que" aria-label="Por qué elegirnos">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">⭐ Ventajas</span>
+      <h2 class="section-title">¿Por qué elegir <span class="text-gradient">Subli-Tech</span>?</h2>
+      <p class="section-sub">Calidad, velocidad y atención personalizada en cada pedido.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal-left">
+        <div class="feature-icon purple">🖨️</div>
+        <h4 class="feature-title">Alta Resolución</h4>
+        <p class="feature-desc">Imprimimos a 1440 DPI con tintas de sublimación de grado profesional para resultados fotográficos.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon cta">⚡</div>
+        <h4 class="feature-title">Entrega Rápida</h4>
+        <p class="feature-desc">Proceso de producción ágil con 6 etapas de control de calidad. Tu pedido listo en 3 días hábiles.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon green">🔒</div>
+        <h4 class="feature-title">Pago Seguro</h4>
+        <p class="feature-desc">Solo el 50% de anticipo al inicio. El saldo se paga al momento de retirar tu pedido terminado.</p>
+      </div>
+      <div class="feature-card reveal-right reveal-delay-2">
+        <div class="feature-icon yellow">🎨</div>
+        <h4 class="feature-title">Diseño Asesorado</h4>
+        <p class="feature-desc">Nuestro equipo revisa y optimiza tu archivo de diseño sin costo adicional. Calidad garantizada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     TESTIMONIALS
+     ══════════════════════════════════════════════════ -->
+<section class="testimonials section-padding" aria-label="Testimonios de clientes">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">💬 Testimonios</span>
+      <h2 class="section-title">Lo que dicen <span class="text-gradient">nuestros clientes</span></h2>
+      <p class="section-sub">Más de 850 clientes satisfechos respaldan nuestra calidad.</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Pedí 10 poleras para mi empresa y quedaron perfectas. Los colores son increíblemente vívidos y la entrega fue en 2 días. ¡100% recomendado!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(122,0,255,0.12);">👩‍💼</div>
+          <div class="author-info">
+            <h5>María Fernández</h5>
+            <p>Gerente de RR.HH. — LogisCargo</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Las tazas mágicas para el matrimonio de mi hermana fueron un éxito total. Todos los invitados quedaron fascinados con el efecto. ¡Gracias Subli-Tech!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(255,0,127,0.10);">🎉</div>
+          <div class="author-info">
+            <h5>Carlos Mendoza</h5>
+            <p>Cliente particular — Cochabamba</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Las gorras para nuestro equipo de fútbol quedaron espectaculares. El diseño del escudo quedó perfecto. Precio justo y excelente calidad."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:rgba(245,158,11,0.12);">⚽</div>
+          <div class="author-info">
+            <h5>Rodrigo Mamani</h5>
+            <p>Capitán Club Deportivo Bolívar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     CTA BANNER
+     ══════════════════════════════════════════════════ -->
+<section class="cta-banner" aria-label="Llamado a la acción">
+  <div class="container" style="position:relative;z-index:1;">
+    <h2>¿Listo para crear algo <em style="font-style:normal;">increíble</em>?</h2>
+    <p>Comienza tu pedido ahora y recíbelo en 3 días hábiles.</p>
+    <a href="#catalogo" class="btn-cta-white" id="cta-banner-btn">
+      🎨 Empezar a Personalizar →
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="img/logo.png" alt="Subli-Tech" style="height:45px;width:auto;object-fit:contain;" />
+        </a>
+        <p>Especialistas en sublimación de alta calidad. Tu diseño, nuestros colores, tu satisfacción garantizada.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Productos</h4>
+        <ul class="footer-links">
+          <li><a href="producto.html?id=1" id="footer-polera-corta">→ Polera Manga Corta</a></li>
+          <li><a href="producto.html?id=2" id="footer-polera-larga">→ Polera Manga Larga</a></li>
+          <li><a href="producto.html?id=3" id="footer-taza">→ Taza Cerámica</a></li>
+          <li><a href="producto.html?id=4" id="footer-taza-magica">→ Taza Mágica</a></li>
+          <li><a href="producto.html?id=5" id="footer-gorra">→ Gorra Sublimable</a></li>
+          <li><a href="producto.html?id=6" id="footer-cojin">→ Cojín 40×40</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul class="footer-links">
+          <li><a href="#como-funciona" id="footer-proceso">→ ¿Cómo funciona?</a></li>
+          <li><a href="#por-que"       id="footer-porque">→ ¿Por qué nosotros?</a></li>
+          <li><a href="login.html"     id="footer-login">→ Iniciar Sesión</a></li>
+          <li><a href="carrito.html"   id="footer-carrito">→ Mi Carrito</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <div class="footer-contact-item">
+          <span>📍</span> Cochabamba, Bolivia
+        </div>
+        <div class="footer-contact-item">
+          <span>📱</span> +591 4 456-7890
+        </div>
+        <div class="footer-contact-item">
+          <span>✉️</span> contacto@sublitech.bo
+        </div>
+        <div class="footer-contact-item">
+          <span>🕐</span> Lun–Vie 9:00 – 18:00
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="footer-divider" />
+
+    <div class="footer-bottom">
+      <p>© 2026 <strong>Subli-Tech</strong> — Todos los derechos reservados.</p>
+      <p>Desarrollado con ❤️ para artesanos digitales.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<!-- Scripts v2 -->
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/catalogo.js"></script>
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(r => console.log('[SW] Registrado:', r.scope))
+          .catch(e => console.warn('[SW] Error al registrar:', e));
+      });
+    }
+  </script>
+</body>
+</html>
+
+

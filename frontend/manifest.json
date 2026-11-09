@@ -1,0 +1,51 @@
+{
+  "name": "Subli-Tech Bolivia",
+  "short_name": "Subli-Tech",
+  "description": "Sublimación premium en Bolivia — Crea y personaliza tu ropa y accesorios.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D0025",
+  "theme_color": "#7A00FF",
+  "lang": "es-BO",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Catálogo",
+      "short_name": "Catálogo",
+      "description": "Ver todos los productos",
+      "url": "/index.html#catalogo",
+      "icons": [{ "src": "img/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Mi Carrito",
+      "short_name": "Carrito",
+      "description": "Ver carrito de compras",
+      "url": "/carrito.html",
+      "icons": [{ "src": "img/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Mis Pedidos",
+      "short_name": "Pedidos",
+      "description": "Seguir mis pedidos",
+      "url": "/mis_pedidos.html",
+      "icons": [{ "src": "img/logo.png", "sizes": "96x96" }]
+    }
+  ]
+}

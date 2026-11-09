@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Carrito — Subli-Tech</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#7A00FF" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Subli-Tech" />
+  <link rel="apple-touch-icon" href="img/logo.png" />
+  <meta name="description" content="Revisa tu carrito de pedidos en Subli-Tech y confirma tu personalización." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Estilos específicos de carrito.html ── */
+    .cart-page { padding-top: var(--header-h); background: var(--bg-soft); min-height: 100vh; }
+
+    .cart-hero {
+      background: linear-gradient(135deg, #2D0060, #7A00FF);
+      color: #fff;
+      padding: 40px 0;
+      text-align: center;
+    }
+    .cart-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: #fff;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .cart-hero p { color: rgba(255,255,255,0.70); font-size: 0.95rem; }
+
+    /* Layout */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 36px 0 60px;
+    }
+    @media(min-width: 1024px) {
+      .cart-layout { grid-template-columns: 1fr 380px; align-items: start; }
+    }
+
+    /* ── Items column ── */
+    .cart-items-col { display: flex; flex-direction: column; gap: 20px; }
+
+    .cart-items-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0 4px;
+    }
+    .cart-items-header h2 {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .btn-limpiar {
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--error);
+      background: var(--error-bg);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+    }
+    .btn-limpiar:hover { background: var(--error); color: #fff; }
+
+    /* ── Cart item card ── */
+    .cart-item {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      padding: 18px;
+      display: flex;
+      gap: 16px;
+      transition: var(--transition-slow);
+    }
+    .cart-item:hover { box-shadow: var(--shadow-md); border-color: var(--border); }
+
+    .cart-item-img {
+      width: 90px;
+      height: 90px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--bg-soft);
+    }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cart-item-info { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+    .cart-item-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .cart-item-name {
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .cart-item-remove {
+      background: transparent;
+      font-size: 1rem;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+    .cart-item-remove:hover { opacity: 1; background: var(--error-bg); transform: scale(1.1); }
+
+    .cart-item-specs { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .spec-chip {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--bg-soft);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .color-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Design badge */
+    .design-badge {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      width: fit-content;
+    }
+    .design-badge.success { background: var(--success-bg); color: var(--success); }
+    .design-badge.success em { font-style: normal; font-weight: 600; }
+    .design-badge.warn    { background: rgba(245,158,11,0.10); color: #D97706; }
+
+    .cart-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    /* Qty en carrito */
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .qty-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--bg-soft);
+      color: var(--text);
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    .qty-btn:hover { background: var(--primary); color: #fff; }
+    .qty-value {
+      width: 36px;
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .cart-item-price { text-align: right; }
+    .unit-price    { display: block; font-size: 0.72rem; color: var(--text-light); }
+    .subtotal-price { font-family: var(--font-title); font-size: 1.05rem; font-weight: 800; color: var(--primary); }
+
+    /* ── Estado vacío ── */
+    .cart-empty {
+      text-align: center;
+      padding: 80px 24px;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 2px dashed var(--border);
+    }
+    .cart-empty.hidden { display: none; }
+    .cart-empty-icon { font-size: 4rem; margin-bottom: 16px; }
+    .cart-empty h3 { font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 10px; }
+    .cart-empty p  { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; }
+
+    /* ── Resumen ── */
+    .cart-summary {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--header-h) + 20px);
+    }
+
+    .cart-summary-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 20px 24px;
+      color: #fff;
+    }
+    .cart-summary-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .cart-summary-header p { font-size: 0.80rem; color: rgba(255,255,255,0.70); }
+
+    .cart-summary-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .summary-row.total { color: var(--text); font-weight: 600; border-top: 1px solid var(--border-soft); padding-top: 12px; margin-top: 4px; }
+    .summary-row .val { font-family: var(--font-title); font-weight: 700; color: var(--text); }
+    .summary-row.anticipo { background: var(--success-bg); padding: 10px 12px; border-radius: var(--radius-sm); margin: 4px 0; }
+    .summary-row.anticipo .label { color: var(--success); font-weight: 600; }
+    .summary-row.anticipo .val   { color: var(--success); font-size: 1.05rem; }
+    .summary-row.saldo .val { color: var(--text-muted); }
+
+    .summary-note {
+      font-size: 0.74rem;
+      color: var(--text-light);
+      text-align: center;
+      line-height: 1.5;
+      padding: 0 4px;
+    }
+
+    .cart-summary-footer { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 10px; }
+
+    #btn-confirmar {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.95rem;
+      padding: 16px;
+    }
+    #btn-confirmar:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-seguir {
+      width: 100%;
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      padding: 10px;
+      border-radius: var(--radius-full);
+      background: rgba(122,0,255,0.08);
+      transition: var(--transition);
+    }
+    .btn-seguir:hover { background: rgba(122,0,255,0.15); }
+
+    /* ── Overlay de confirmación ── */
+    .confirm-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.60);
+      backdrop-filter: blur(6px);
+      z-index: 9998;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .confirm-overlay.visible { display: flex; animation: fadeIn 0.3s ease; }
+
+    .confirm-modal {
+      background: var(--bg);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    .confirm-modal-icon { font-size: 3rem; text-align: center; margin-bottom: 16px; }
+    .confirm-modal h3 {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .confirm-modal p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .confirm-detail-box {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .confirm-detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+    }
+    .confirm-detail-row span { color: var(--text-muted); }
+    .confirm-detail-row strong { font-family: var(--font-title); color: var(--text); }
+    .confirm-detail-row.anticipo strong { color: var(--success); font-size: 1.05rem; }
+
+    .confirm-actions { display: flex; gap: 10px; }
+    .confirm-actions .btn { flex: 1; justify-content: center; }
+
+    #confirm-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 1.2rem;
+      background: transparent;
+      opacity: 0.5;
+      cursor: pointer;
+      padding: 4px;
+    }
+    #confirm-close:hover { opacity: 1; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding: 20px 0 0;
+    }
+    .breadcrumb a { color: var(--primary); }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* ════════════════════════════════════
+       MÉTODO DE PAGO (Fase 3)
+       ════════════════════════════════════ */
+    .payment-section {
+      background: linear-gradient(135deg, rgba(122,0,255,0.03), rgba(255,0,127,0.02));
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1.5px solid var(--border-soft);
+    }
+    .payment-section-label {
+      font-family: var(--font-title);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .payment-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .pay-option { position: relative; cursor: pointer; }
+    .pay-option input[type="radio"] {
+      position: absolute; opacity: 0; width: 0; height: 0;
+    }
+    .pay-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 11px 6px;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      transition: var(--transition);
+      cursor: pointer;
+      text-align: center;
+    }
+    .pay-card:hover {
+      border-color: rgba(122,0,255,0.35);
+      background: rgba(122,0,255,0.03);
+    }
+    .pay-option input:checked + .pay-card {
+      border-color: var(--primary);
+      background: rgba(122,0,255,0.07);
+      box-shadow: 0 4px 14px rgba(122,0,255,0.14);
+    }
+    .pay-icon  { font-size: 1.5rem; line-height: 1; }
+    .pay-name  { font-family: var(--font-title); font-size: 0.70rem; font-weight: 700; color: var(--text); }
+    .pay-desc  { font-size: 0.62rem; color: var(--text-muted); }
+
+    /* Info dinámica del método */
+    .pay-method-info {
+      background: rgba(122,0,255,0.04);
+      border: 1px solid rgba(122,0,255,0.14);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      animation: slideDown 0.25s ease;
+    }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+    .pay-method-info.hidden { display: none; }
+    .pay-method-info p strong { color: var(--text); font-weight: 700; }
+    .pay-required-warn {
+      display: none;
+      font-size: 0.74rem;
+      color: var(--error);
+      font-family: var(--font-title);
+      font-weight: 600;
+      padding: 4px 0 0;
+    }
+    .pay-required-warn.visible { display: block; animation: fadeWarn 0.3s ease; }
+    @keyframes fadeWarn { from { opacity:0; } to { opacity:1; } }
+  </style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" id="logo-link">
+        <img src="img/logo.png" alt="Subli-Tech" style="height:45px;width:auto;object-fit:contain;" />
+      </a>
+      <nav class="nav" role="navigation">
+        <a href="index.html#catalogo" class="nav-link" id="nav-catalogo">Catálogo</a>
+        <a href="index.html#como-funciona" class="nav-link" id="nav-proceso">¿Cómo funciona?</a>
+        <a href="login.html" class="btn btn-sm" id="nav-login" style="background:linear-gradient(135deg,#7A00FF,#FF007F);color:#fff;padding:8px 18px;border-radius:50px;font-weight:700;font-size:0.85rem;letter-spacing:0.02em;">Iniciar Sesión</a>
+      </nav>
+      <div class="header-actions">
+        <a href="carrito.html" class="cart-btn active" id="cart-btn" aria-label="Ver carrito">
+          🛒
+          <span class="cart-badge" id="cart-badge">0</span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html#catalogo" class="nav-link" id="m-nav-catalogo">🛍️ Catálogo</a>
+  <a href="login.html" class="nav-link" id="m-nav-login">🔑 Iniciar Sesión</a>
+</div>
+
+<main class="cart-page">
+
+  <div class="cart-hero">
+    <div class="container">
+      <h1>🛒 Mi Carrito de Pedidos</h1>
+      <p>Revisa tus artículos personalizados antes de confirmar</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <a href="index.html" id="bc-inicio">🏠 Inicio</a>
+      <span>›</span>
+      <a href="index.html#catalogo" id="bc-catalogo">Catálogo</a>
+      <span>›</span>
+      <span>Mi Carrito</span>
+    </nav>
+
+    <div class="cart-layout">
+
+      <div class="cart-items-col">
+
+        <div class="cart-empty" id="cart-empty">
+          <div class="cart-empty-icon">🛒</div>
+          <h3>Tu carrito está vacío</h3>
+          <p>Aún no has agregado productos. ¡Explora nuestro catálogo y personaliza tu artículo favorito!</p>
+          <a href="index.html#catalogo" class="btn btn-cta" id="empty-catalogo-btn">
+            🎨 Ver Catálogo
+          </a>
+        </div>
+
+        <div id="cart-content" class="hidden" style="display:contents;">
+          <div class="cart-items-header">
+            <h2>🧾 Productos en tu pedido</h2>
+            <button class="btn-limpiar" id="btn-limpiar">🗑️ Vaciar carrito</button>
+          </div>
+          <div id="cart-items"></div>
+
+          <a href="index.html#catalogo" class="btn btn-ghost" id="add-more-btn" style="text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;">
+            ➕ Agregar más productos
+          </a>
+        </div>
+
+      </div>
+
+      <aside class="cart-summary" aria-label="Resumen del pedido">
+        <div class="cart-summary-header">
+          <h3>📋 Resumen del Pedido</h3>
+          <p>Anticipo del 50% al confirmar</p>
+        </div>
+
+        <div class="cart-summary-body">
+          <div class="summary-row">
+            <span>🛍️ Productos</span>
+            <span class="val" id="summary-items">0 productos</span>
+          </div>
+          <div class="summary-row">
+            <span>💰 Subtotal</span>
+            <span class="val" id="summary-subtotal">Bs. 0</span>
+          </div>
+          <div class="summary-row anticipo">
+            <span class="label">⚡ Anticipo (50%)</span>
+            <span class="val" id="summary-anticipo">Bs. 0</span>
+          </div>
+          <div class="summary-row saldo">
+            <span>📦 Saldo al retirar</span>
+            <span class="val" id="summary-saldo">Bs. 0</span>
+          </div>
+          <!-- Fila de descuento (oculta si no hay promo activa) -->
+          <div class="summary-row" id="summary-descuento-row" style="display:none;color:#10B981;">
+            <span>🏷️ Descuento aplicado</span>
+            <span class="val" id="summary-descuento" style="color:#10B981;font-weight:700;">− Bs. 0</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total pedido</span>
+            <span class="val" id="summary-total">Bs. 0</span>
+          </div>
+
+          <!-- ── Código Promocional ── -->
+          <div style="border-top:1px solid var(--border-soft);margin-top:12px;padding-top:14px;">
+            <p style="font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;color:#64748B;margin-bottom:8px;">
+              🏷️ ¿Tienes un código de descuento?
+            </p>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input
+                type="text"
+                id="promo-codigo"
+                placeholder="Ej: SUBLI10"
+                style="flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--radius-full);font-size:0.85rem;font-family:'Inter',sans-serif;background:var(--bg-soft);color:var(--text);outline:none;"
+                maxlength="20"
+              />
+              <button
+                id="btn-aplicar-promo"
+                style="padding:9px 18px;background:linear-gradient(135deg,#7A00FF,#FF007F);color:#fff;border-radius:var(--radius-full);font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:700;white-space:nowrap;cursor:pointer;"
+              >Aplicar</button>
+              <button
+                id="btn-remover-promo"
+                style="display:none;padding:9px 14px;background:var(--error-bg);color:var(--error);border-radius:var(--radius-full);font-size:0.82rem;font-weight:700;cursor:pointer;"
+                title="Quitar descuento"
+              >✕</button>
+            </div>
+            <p id="promo-mensaje" style="font-size:0.8rem;margin-top:6px;display:none;"></p>
+          </div>
+
+          <div class="payment-section" id="payment-section">
+            <p class="payment-section-label">💳 Método de pago del anticipo</p>
+            <div class="payment-options" role="group" aria-label="Selecciona método de pago">
+
+              <label class="pay-option" for="pay-qr">
+                <input type="radio" id="pay-qr" name="metodo_pago" value="QR" />
+                <div class="pay-card" id="pay-card-qr">
+                  <span class="pay-icon">📱</span>
+                  <span class="pay-name">QR</span>
+                  <span class="pay-desc">Tigo / BCP</span>
+                </div>
+              </label>
+
+              <label class="pay-option" for="pay-transfer">
+                <input type="radio" id="pay-transfer" name="metodo_pago" value="Transferencia" />
+                <div class="pay-card" id="pay-card-transfer">
+                  <span class="pay-icon">🏦</span>
+                  <span class="pay-name">Transferencia</span>
+                  <span class="pay-desc">Banco / Billetera</span>
+                </div>
+              </label>
+
+              <label class="pay-option" for="pay-efectivo">
+                <input type="radio" id="pay-efectivo" name="metodo_pago" value="Efectivo" />
+                <div class="pay-card" id="pay-card-efectivo">
+                  <span class="pay-icon">💵</span>
+                  <span class="pay-name">Efectivo</span>
+                  <span class="pay-desc">En tienda</span>
+                </div>
+              </label>
+
+            </div>
+
+            <div class="pay-method-info hidden" id="pay-info-QR">
+              <p>📱 <strong>QR Tigo Money / BCP Bolivia</strong></p>
+              <p>Escanea el código QR para pagar el anticipo directamente.</p>
+              <!-- Contenedor del QR dinámico — generado por carrito.js -->
+              <div id="pay-qr-container"></div>
+            </div>
+            <div class="pay-method-info hidden" id="pay-info-Transferencia">
+              <p>🏦 <strong>Banco BCP Bolivia</strong></p>
+              <p>Cta. de Ahorros: <strong>1234-5678901</strong></p>
+              <p>Envía comprobante a: <strong>contacto@sublitech.bo</strong></p>
+            </div>
+            <div class="pay-method-info hidden" id="pay-info-Efectivo">
+              <p>💵 <strong>Pago en efectivo en tienda</strong></p>
+              <p>Cancela el anticipo al entregar tu diseño en nuestro local. Cochabamba, Bolivia.</p>
+            </div>
+
+            <p class="pay-required-warn" id="pay-required-warn">⚠️ Selecciona un método de pago para continuar</p>
+          </div>
+          <p class="summary-note">
+            💡 Solo pagas el 50% ahora. El saldo restante se cancela al retirar tu pedido terminado.
+          </p>
+        </div>
+
+        <div class="cart-summary-footer">
+          <button class="btn btn-cta" id="btn-confirmar" disabled>
+            ✅ Confirmar Pedido
+          </button>
+          <a href="index.html#catalogo" class="btn-seguir" id="btn-seguir-comprando">
+            ← Seguir comprando
+          </a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="confirm-modal">
+    <button id="confirm-close" aria-label="Cerrar">✕</button>
+    <div class="confirm-modal-icon">🎉</div>
+    <h3 id="confirm-title">¡Confirmar Pedido!</h3>
+    <p>
+      Tu pedido será enviado a producción. Nos contactaremos contigo para coordinar el pago del anticipo.
+    </p>
+    <div class="confirm-detail-box">
+      <div class="confirm-detail-row">
+        <span>Productos</span>
+        <strong><span id="confirm-items-n">0</span> artículo(s)</strong>
+      </div>
+      <div class="confirm-detail-row">
+        <span>Total del pedido</span>
+        <strong id="confirm-subtotal">Bs. 0</strong>
+      </div>
+      <div class="confirm-detail-row anticipo">
+        <span>⚡ Anticipo a pagar (50%)</span>
+        <strong id="confirm-anticipo">Bs. 0</strong>
+      </div>
+      <div class="confirm-detail-row" id="confirm-metodo-row">
+        <span>💳 Método de pago</span>
+        <strong id="confirm-metodo">—</strong>
+      </div>
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-outline" id="confirm-close-btn" style="color:var(--text-muted);border-color:var(--border);">Cancelar</button>
+      <button class="btn btn-cta" id="confirm-ok">✅ Sí, confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/carrito.js"></script>
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(r => console.log('[SW] Registrado:', r.scope))
+          .catch(e => console.warn('[SW] Error al registrar:', e));
+      });
+    }
+  </script>
+</body>
+</html>
+
+

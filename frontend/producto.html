@@ -1,0 +1,991 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Producto — Subli-Tech</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#7A00FF" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Subli-Tech" />
+  <link rel="apple-touch-icon" href="img/logo.png" />
+  <meta name="description" content="Personaliza tu artículo sublimado en Subli-Tech. Elige talla, color y sube tu diseño." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Estilos específicos de producto.html ── */
+    .prod-page { padding-top: var(--header-h); background: var(--bg-soft); min-height: 100vh; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding: 20px 0 0;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--primary); transition: var(--transition); }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { color: var(--text-light); }
+
+    /* Layout principal */
+    .prod-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 24px 0 64px;
+    }
+    @media(min-width:1024px) { .prod-layout { grid-template-columns: 1fr 1fr; gap: 48px; } }
+
+    /* ── Columna imagen ── */
+    .prod-img-col { position: sticky; top: calc(var(--header-h) + 20px); height: fit-content; }
+
+    .prod-img-main {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: var(--bg-soft);
+      position: relative;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .prod-img-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-slow);
+    }
+
+    .prod-img-main:hover img { transform: scale(1.04); }
+
+    .prod-img-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Rating */
+    .prod-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    #prod-rating { color: #F59E0B; font-weight: 600; }
+
+    /* ── Columna formulario ── */
+    .prod-info-col { display: flex; flex-direction: column; gap: 24px; }
+
+    .prod-header-info { display: flex; flex-direction: column; gap: 10px; }
+
+    #prod-nombre {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    #prod-desc { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* Precio box */
+    .price-box {
+      background: linear-gradient(135deg, rgba(122,0,255,0.06), rgba(255,0,127,0.04));
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .price-main { display: flex; flex-direction: column; gap: 2px; }
+    .price-desde { font-size: 0.75rem; color: var(--text-light); font-weight: 500; }
+    .price-big   { font-family: var(--font-title); font-size: 2rem; font-weight: 900; color: var(--primary); line-height: 1; }
+    .price-tag   { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+    .price-anticipo {
+      background: rgba(16,185,129,0.10);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      text-align: center;
+    }
+    .price-anticipo .label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+    .price-anticipo .amount { font-family: var(--font-title); font-size: 1.1rem; font-weight: 800; color: var(--success); }
+    .price-anticipo .note   { font-size: 0.68rem; color: var(--text-light); }
+
+    /* ── Selector de talla ── */
+    .form-section { display: flex; flex-direction: column; gap: 10px; }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-title);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .form-label-hint {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--text-light);
+    }
+
+    #talla-options { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .talla-btn {
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-width: 52px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .talla-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(122,0,255,0.05);
+    }
+
+    .talla-btn.selected {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .talla-info {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Selector de color ── */
+    #color-options { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    .color-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .color-swatch:hover { transform: scale(1.18); box-shadow: 0 2px 8px rgba(0,0,0,0.20); }
+    .color-swatch.selected { transform: scale(1.18); box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--primary); }
+
+    .swatch-check {
+      font-size: 0.7rem;
+      color: var(--primary);
+      font-weight: 900;
+      text-shadow: 0 0 4px rgba(255,255,255,0.8);
+    }
+
+    .color-label-row {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── Zona de Upload ── */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--bg);
+    }
+
+    .upload-zone:hover { border-color: var(--primary); background: rgba(122,0,255,0.03); }
+    .upload-zone.drag-over { border-color: var(--primary); background: rgba(122,0,255,0.07); transform: scale(1.01); }
+    .upload-zone.has-file  { border-color: var(--success); background: var(--success-bg); }
+
+    .upload-icon { font-size: 2.8rem; }
+    .upload-title { font-family: var(--font-title); font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .upload-sub   { font-size: 0.78rem; color: var(--text-muted); }
+    .upload-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 4px;
+    }
+    .upload-spec-tag {
+      font-size: 0.70rem;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-soft);
+    }
+
+    /* Preview de diseño */
+    .upload-preview {
+      border: 1.5px solid var(--success);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .upload-preview.hidden { display: none; }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--success-bg);
+      gap: 10px;
+    }
+
+    .preview-file-info { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+    .preview-file-icon { font-size: 1.2rem; flex-shrink: 0; }
+    #file-name { font-family: var(--font-title); font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #file-size { font-size: 0.72rem; color: var(--text-muted); }
+
+    .btn-remove-file {
+      background: var(--error-bg);
+      color: var(--error);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-title);
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .btn-remove-file:hover { background: var(--error); color: #fff; }
+
+    .preview-img-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+      background: #f8f8f8;
+      max-height: 200px;
+      overflow: hidden;
+    }
+    #preview-img { max-height: 180px; max-width: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+
+    .upload-error {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: var(--error-bg);
+      color: var(--error);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(239,68,68,0.25);
+    }
+
+    /* ── Cantidad ── */
+    .qty-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .qty-btn {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--bg-soft);
+      transition: var(--transition);
+      border: none;
+    }
+
+    .qty-btn:hover { background: var(--primary); color: #fff; }
+
+    #qty-input {
+      width: 52px;
+      height: 42px;
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      border: none;
+      outline: none;
+      background: var(--bg);
+    }
+
+    .qty-total-label { font-size: 0.82rem; color: var(--text-muted); }
+    #precio-unidad   { font-family: var(--font-title); font-weight: 700; color: var(--primary); }
+
+    /* ── Botones de acción ── */
+    .prod-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .prod-actions .btn { flex: 1; min-width: 140px; justify-content: center; font-size: 0.95rem; padding: 15px 20px; }
+
+    /* ── Tabs ── */
+    .tabs-container {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+    }
+
+    .tabs-nav {
+      display: flex;
+      border-bottom: 1px solid var(--border-soft);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      font-family: var(--font-title);
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 14px 20px;
+      color: var(--text-muted);
+      background: transparent;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover  { color: var(--primary); background: var(--bg-soft); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .tab-panel { display: none; padding: 24px; }
+    .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+    #tab-desc-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* Tabla de tallas */
+    .tallas-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .tallas-table th {
+      background: var(--bg-soft);
+      padding: 10px 14px;
+      text-align: left;
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .tallas-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-soft); color: var(--text); }
+    .tallas-table tr:last-child td { border-bottom: none; }
+    .tallas-table tr:hover td { background: var(--bg-soft); }
+
+    /* Instrucciones de diseño */
+    .instrucciones-list { display: flex; flex-direction: column; gap: 12px; }
+    .instruccion-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px;
+      background: var(--bg-soft);
+      border-radius: var(--radius-sm);
+    }
+    .instruccion-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .instruccion-text h5 { font-family: var(--font-title); font-size: 0.85rem; font-weight: 700; margin-bottom: 2px; }
+    .instruccion-text p  { font-size: 0.80rem; color: var(--text-muted); }
+
+    /* Divider */
+    .form-divider { border: none; border-top: 1px solid var(--border-soft); margin: 4px 0; }
+
+    /* Garantías row */
+    .garantias {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .garantia-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: var(--bg-soft);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-soft);
+    }
+
+    /* ════════════════════════════════════
+       MOCKUP INTERACTIVO (Fase 3)
+       ════════════════════════════════════ */
+    #mockup-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+
+    /* Overlay del diseño del usuario */
+    .mockup-overlay-wrap {
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      width: 70%;
+      cursor: move;
+      z-index: 20;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+    .mockup-overlay-wrap.hidden { display: none !important; }
+
+    #mockup-design-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      opacity: 0.80;
+      border-radius: 4px;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.18));
+      transition: opacity 0.2s ease;
+    }
+
+    /* Handle de resize (esquina inferior derecha) */
+    .mockup-resize-handle {
+      position: absolute;
+      bottom: -9px;
+      right: -9px;
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(135deg, #7A00FF, #FF007F);
+      border-radius: 50%;
+      cursor: se-resize;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(122,0,255,0.50);
+      z-index: 22;
+      transition: transform 0.2s;
+      touch-action: none;
+    }
+    .mockup-resize-handle:hover { transform: scale(1.25); }
+
+    /* Badge flotante "Mockup activo" */
+    .mockup-active-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(18, 0, 50, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 0.70rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+      z-index: 23;
+      letter-spacing: 0.03em;
+      border: 1px solid rgba(122,0,255,0.35);
+      pointer-events: none;
+    }
+    .mockup-active-badge.hidden { display: none; }
+
+    /* Panel de controles del mockup */
+    .mockup-controls {
+      background: linear-gradient(135deg, rgba(122,0,255,0.05), rgba(255,0,127,0.03));
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      animation: panelIn 0.3s ease;
+    }
+    .mockup-controls.hidden { display: none !important; }
+    @keyframes panelIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    .mockup-ctrl-title {
+      font-family: var(--font-title);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--primary);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .mockup-opacity-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex: 1;
+      min-width: 130px;
+    }
+    .mockup-opacity-row label { font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; }
+    #mockup-opacity {
+      flex: 1;
+      height: 4px;
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--border);
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+    #mockup-opacity::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(122,0,255,0.4);
+    }
+    .mockup-opacity-val {
+      font-family: var(--font-title);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 34px;
+      text-align: right;
+    }
+    .btn-reset-mockup {
+      font-family: var(--font-title);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-reset-mockup:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: rgba(122,0,255,0.06);
+    }
+
+    /* ── Controles numéricos del mockup (Fase 1 Avanzada) ── */
+    .mockup-ctrl-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-top: 4px;
+    }
+    .mockup-ctrl-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      flex: 1;
+      min-width: 52px;
+    }
+    .mockup-ctrl-group label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .mockup-num-input {
+      width: 100%;
+      padding: 5px 4px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--bg);
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+      
+    }
+    .mockup-num-input::-webkit-outer-spin-button,
+    .mockup-num-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .mockup-num-input:focus { border-color: var(--primary); background: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" id="logo-link">
+        <img src="img/logo.png" alt="Subli-Tech" style="height:45px;width:auto;object-fit:contain;" />
+      </a>
+      <nav class="nav" role="navigation" aria-label="Menú principal">
+        <a href="index.html#catalogo"     class="nav-link" id="nav-catalogo">Catálogo</a>
+        <a href="index.html#como-funciona" class="nav-link" id="nav-proceso">¿Cómo funciona?</a>
+        <a href="index.html#por-que"      class="nav-link" id="nav-porque">¿Por qué nosotros?</a>
+        <a href="login.html"              class="btn btn-sm" id="nav-login" style="background:linear-gradient(135deg,#7A00FF,#FF007F);color:#fff;padding:8px 18px;border-radius:50px;font-weight:700;font-size:0.85rem;letter-spacing:0.02em;">Iniciar Sesión</a>
+      </nav>
+      <div class="header-actions">
+        <a href="carrito.html" class="cart-btn" id="cart-btn" aria-label="Ver carrito">
+          🛒
+          <span class="cart-badge" id="cart-badge">0</span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html#catalogo"      class="nav-link" id="m-nav-catalogo">🛍️ Catálogo</a>
+  <a href="index.html#como-funciona" class="nav-link" id="m-nav-proceso">⚙️ ¿Cómo funciona?</a>
+  <a href="login.html"               class="nav-link" id="m-nav-login">🔑 Iniciar Sesión</a>
+</div>
+
+<main class="prod-page">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <a href="index.html" id="bc-inicio">🏠 Inicio</a>
+      <span>›</span>
+      <a href="index.html#catalogo" id="bc-catalogo">Catálogo</a>
+      <span>›</span>
+      <span id="bc-producto">Producto</span>
+    </nav>
+
+    <div class="prod-layout">
+
+      <!-- ── Columna Imagen + Mockup Interactivo ── -->
+      <div class="prod-img-col">
+        <!-- Contenedor principal del mockup -->
+        <div class="prod-img-main" id="mockup-container">
+          <!-- Imagen base del producto -->
+          <img id="prod-img" src="" alt="Producto" loading="eager" />
+
+          <!-- Overlay draggable del diseño del usuario (Fase 3) -->
+          <div class="mockup-overlay-wrap hidden" id="mockup-overlay-wrap">
+            <img id="mockup-design-img" src="" alt="Tu diseño sobre el producto" />
+            <div class="mockup-resize-handle" id="mockup-resize-handle" title="Arrastra para redimensionar"></div>
+          </div>
+
+          <!-- Badge flotante cuando mockup está activo -->
+          <div class="mockup-active-badge hidden" id="mockup-active-badge">
+            🎨 Vista previa sobre producto &nbsp;·&nbsp; arrastra para mover
+          </div>
+
+          <!-- Badge de categoría -->
+          <div class="prod-img-badge" id="prod-categoria-badge">
+            <span id="prod-categoria">Cargando...</span>
+          </div>
+        </div>
+
+        <!-- Panel de controles del mockup (visible solo cuando hay diseño) -->
+        <div class="mockup-controls hidden" id="mockup-controls">
+          <span class="mockup-ctrl-title">🖼️ Mockup</span>
+
+          <!-- Opacidad -->
+          <div class="mockup-opacity-row">
+            <label for="mockup-opacity">Opacidad</label>
+            <input type="range" id="mockup-opacity" min="20" max="100" value="80"
+              aria-label="Opacidad del diseño sobre el producto" />
+            <span class="mockup-opacity-val" id="mockup-opacity-label">80%</span>
+          </div>
+
+          <!-- Fila 2: Posición X/Y -->
+          <div class="mockup-ctrl-row" id="mockup-ctrl-pos">
+            <div class="mockup-ctrl-group">
+              <label for="ctrl-pos-x">↔️ X</label>
+              <input type="number" id="ctrl-pos-x" class="mockup-num-input" value="50" min="-100" max="200" step="1" aria-label="Posición X" />
+            </div>
+            <div class="mockup-ctrl-group">
+              <label for="ctrl-pos-y">↕️ Y</label>
+              <input type="number" id="ctrl-pos-y" class="mockup-num-input" value="50" min="-100" max="200" step="1" aria-label="Posición Y" />
+            </div>
+            <div class="mockup-ctrl-group">
+              <label for="ctrl-scale">🔍 Zoom</label>
+              <input type="number" id="ctrl-scale" class="mockup-num-input" value="70" min="10" max="200" step="5" aria-label="Escala" />
+            </div>
+            <div class="mockup-ctrl-group">
+              <label for="ctrl-rotate">🔄 Rot.</label>
+              <input type="number" id="ctrl-rotate" class="mockup-num-input" value="0" min="-180" max="180" step="5" aria-label="Rotación" />
+            </div>
+          </div>
+
+          <button class="btn-reset-mockup" id="btn-reset-mockup" type="button">↺ Centrar</button>
+        </div>
+      </div>
+
+      <!-- ── Columna Formulario ── -->
+      <div class="prod-info-col">
+
+        <!-- Info básica -->
+        <div class="prod-header-info">
+          <div class="prod-rating">
+            <span id="prod-rating">★★★★★ — </span>
+          </div>
+          <h1 id="prod-nombre">Cargando producto...</h1>
+          <p id="prod-desc"></p>
+        </div>
+
+        <!-- Precio -->
+        <div class="price-box">
+          <div class="price-main">
+            <span class="price-desde">Precio unitario</span>
+            <span class="price-big" id="prod-precio">$0</span>
+            <span class="price-tag">BOB — precio final</span>
+          </div>
+          <div class="price-anticipo">
+            <div class="label">Anticipo (50%)</div>
+            <div class="amount" id="precio-anticipo">$0</div>
+            <div class="note">Saldo al retirar</div>
+          </div>
+        </div>
+
+<hr class="form-divider" />
+
+<!-- 👤 Selector de Corte / Género (Condicional) -->
+<div class="form-section" id="genero-section">
+  <div class="form-label">
+    <span>👤 Corte / Género</span>
+    <span id="genero-label" style="color:var(--primary);font-weight:700;">Hombre / Unisex</span>
+  </div>
+  <div class="genero-options" id="genero-options" style="display: flex; gap: 10px;" role="group" aria-label="Seleccionar corte o género">
+    <button class="genero-btn selected" data-genero="Hombre" type="button" aria-pressed="true" style="flex: 1; padding: 10px; border: 2.5px solid var(--primary); background: rgba(122,0,255,0.05); color: var(--primary); border-radius: var(--radius-sm); font-family: var(--font-title); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition);">Hombre / Unisex</button>
+    <button class="genero-btn" data-genero="Mujer" type="button" aria-pressed="false" style="flex: 1; padding: 10px; border: 2.5px solid var(--border); background: var(--bg); color: var(--text-muted); border-radius: var(--radius-sm); font-family: var(--font-title); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition);">Mujer (Entallado)</button>
+  </div>
+</div>
+
+        <!-- Selector de Talla -->
+        <div class="form-section">
+          <div class="form-label">
+            <span>📏 Talla
+              <span class="form-label-hint" id="talla-medida"></span>
+            </span>
+            <span id="talla-label" style="color:var(--primary);font-weight:700;">—</span>
+          </div>
+          <div id="talla-options" role="group" aria-label="Seleccionar talla"></div>
+        </div>
+
+        <!-- Selector de Color -->
+        <div class="form-section">
+          <div class="form-label">
+            <span>🎨 Color base</span>
+            <span id="color-label" style="color:var(--primary);font-weight:700;">Blanco</span>
+          </div>
+          <div id="color-options" role="group" aria-label="Seleccionar color"></div>
+        </div>
+
+        <!-- Upload de Diseño -->
+        <div class="form-section">
+          <div class="form-label">
+            <span>🖼️ Tu Diseño</span>
+            <span class="form-label-hint">JPG, PNG, SVG — máx. 20MB</span>
+          </div>
+
+          <!-- Zona de arrastre -->
+          <div class="upload-zone" id="upload-zone" role="button" tabindex="0" aria-label="Subir diseño">
+            <div class="upload-icon">📤</div>
+            <p class="upload-title">Arrastra tu diseño aquí</p>
+            <p class="upload-sub">o haz clic para seleccionar archivo</p>
+            <div class="upload-specs">
+              <span class="upload-spec-tag">JPG</span>
+              <span class="upload-spec-tag">PNG</span>
+              <span class="upload-spec-tag">WEBP</span>
+              <span class="upload-spec-tag">SVG</span>
+              <span class="upload-spec-tag">Mín. 300 DPI</span>
+            </div>
+          </div>
+          <input type="file" id="diseno-input" accept=".jpg,.jpeg,.png,.webp,.svg" style="display:none;" aria-label="Archivo de diseño" />
+
+          <!-- Mensaje de error -->
+          <div class="upload-error" id="upload-error" role="alert">⚠️ <span></span></div>
+
+          <!-- Preview del diseño -->
+          <div class="upload-preview hidden" id="diseno-preview">
+            <div class="preview-header">
+              <div class="preview-file-info">
+                <span class="preview-file-icon">🖼️</span>
+                <div>
+                  <div id="file-name">archivo.png</div>
+                  <div id="file-size">0 KB</div>
+                </div>
+              </div>
+              <button class="btn-remove-file" id="remove-diseno">Quitar</button>
+            </div>
+            <div class="preview-img-wrap">
+              <img id="preview-img" src="" alt="Vista previa del diseño" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="form-section">
+          <div class="form-label"><span>📦 Cantidad</span></div>
+          <div class="qty-row">
+            <div class="qty-selector">
+              <button class="qty-btn" id="qty-dec" aria-label="Disminuir cantidad">−</button>
+              <input type="number" id="qty-input" value="1" min="1" max="50" aria-label="Cantidad" />
+              <button class="qty-btn" id="qty-inc" aria-label="Aumentar cantidad">+</button>
+            </div>
+            <div class="qty-total-label">
+              Total: <span id="precio-unidad">$0 × 1</span> = <strong style="color:var(--primary);" id="precio-total">$0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="prod-actions">
+          <button class="btn btn-cta" id="btn-agregar" style="flex:2;">
+            🛒 Agregar al Carrito
+          </button>
+          <button class="btn btn-outline" id="btn-ir-carrito" style="flex:1;">
+            Ver Carrito
+          </button>
+        </div>
+
+        <!-- Garantías -->
+        <div class="garantias">
+          <div class="garantia-chip">🔒 Pago 50% anticipo</div>
+          <div class="garantia-chip">⚡ Entrega 3 días</div>
+          <div class="garantia-chip">🎨 Diseño asesorado</div>
+          <div class="garantia-chip">✅ Calidad garantizada</div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+          <div class="tabs-nav" role="tablist">
+            <button class="tab-btn active" data-tab="tab-descripcion" id="tab-btn-desc" role="tab" aria-selected="true">📋 Descripción</button>
+            <button class="tab-btn" data-tab="tab-tallas"      id="tab-btn-tallas" role="tab" aria-selected="false">📏 Guía de Tallas</button>
+            <button class="tab-btn" data-tab="tab-instrucciones" id="tab-btn-inst" role="tab" aria-selected="false">🖼️ Instrucciones</button>
+          </div>
+
+          <div class="tab-panel active" id="tab-descripcion" role="tabpanel">
+            <p id="tab-desc-body"></p>
+          </div>
+
+          <div class="tab-panel" id="tab-tallas" role="tabpanel">
+            <table class="tallas-table">
+              <thead>
+                <tr>
+                  <th>Talla</th>
+                  <th>Medida</th>
+                </tr>
+              </thead>
+              <tbody id="tallas-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="tab-panel" id="tab-instrucciones" role="tabpanel">
+            <div class="instrucciones-list">
+              <div class="instruccion-item">
+                <span class="instruccion-icon">📐</span>
+                <div class="instruccion-text">
+                  <h5>Resolución mínima</h5>
+                  <p>Tu archivo debe tener al menos 300 DPI para garantizar nitidez en la impresión.</p>
+                </div>
+              </div>
+              <div class="instruccion-item">
+                <span class="instruccion-icon">🎨</span>
+                <div class="instruccion-text">
+                  <h5>Espacio de color</h5>
+                  <p>Usa modo de color RGB (no CMYK). Los colores RGB se reproducen con mayor fidelidad en sublimación.</p>
+                </div>
+              </div>
+              <div class="instruccion-item">
+                <span class="instruccion-icon">📄</span>
+                <div class="instruccion-text">
+                  <h5>Formatos aceptados</h5>
+                  <p>JPG, PNG (con o sin transparencia), WEBP, SVG. Tamaño máximo 20MB por archivo.</p>
+                </div>
+              </div>
+              <div class="instruccion-item">
+                <span class="instruccion-icon">⚠️</span>
+                <div class="instruccion-text">
+                  <h5>Zona de seguridad</h5>
+                  <p>Deja un margen de 5mm en los bordes para evitar que texto o elementos importantes queden en las costuras.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /tabs-container -->
+
+      </div><!-- /prod-info-col -->
+    </div><!-- /prod-layout -->
+  </div><!-- /container -->
+</main>
+
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/producto.js"></script>
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(r => console.log('[SW] Registrado:', r.scope))
+          .catch(e => console.warn('[SW] Error al registrar:', e));
+      });
+    }
+  </script>
+</body>
+</html>
+
+
